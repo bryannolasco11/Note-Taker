@@ -7,7 +7,7 @@ const fs = require('fs')
 // require route
 //const apiRoutes = require('./routes/apiRoutes');
 //const htmlRoutes = require('./routes/htmlRoutes');
-
+const PORT = process.env.PORT || 3001;
 // creates an express server
 const app = express();
 
@@ -18,12 +18,14 @@ app.get('/api/notes', (req, res) => {
      res.json(results);
 });
 
-
+app.post('/animals', (req, res) => {
+    
+})
 
 
       
 
 
-app.listen(3001, () => {
-    console.log('API server now on port 3001!');
+app.listen(port, () => {
+    console.log(`API server now on port ${PORT}!`);
 });
