@@ -5,6 +5,8 @@ const notes = require('./db/db.json');
 const fs = require('fs')
 const path = require ('path');
 
+const uniqid = require('uniqid');
+
 // require route
 //const apiRoutes = require('./routes/apiRoutes');
 //const htmlRoutes = require('./routes/htmlRoutes');
@@ -30,6 +32,8 @@ app.get('/api/notes', (req, res) => {
 // give response to the user
 app.post('/api/notes', (req, res) => {
     console.log(req.body);
+    // add id to note
+
     
     // add note to json file and notes array in this function
     const note = createNewNote(req.body, notes);
@@ -38,13 +42,18 @@ app.post('/api/notes', (req, res) => {
 });
 
 function createNewNote(body, notesArray) {
-    const note = body;
-    notesArray.push(note);
+    // adds a unique ID
+    let newNote = {
+        title: body.title,
+        text: body.text,
+        id: uniqid()
+    };
+    notesArray.push(newNote);
     fs.writeFileSync(
         path.join(__dirname, './db/db.json'),
         JSON.stringify(notesArray, null, 2)
     );
-    return note;
+    return newNote;
 }
 
 
