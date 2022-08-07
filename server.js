@@ -26,6 +26,6 @@ app.post('/animals', (req, res) => {
       
 
 
-app.listen(port, () => {
+app.listen(PORT, () => {
     console.log(`API server now on port ${PORT}!`);
 });
