@@ -32,13 +32,16 @@ app.get('/api/notes', (req, res) => {
 // give response to the user
 app.post('/api/notes', (req, res) => {
     console.log(req.body);
-    // add id to note
-
     
     // add note to json file and notes array in this function
-    const note = createNewNote(req.body, notes);
     
-    res.json(note);
+    
+    if (!validateNote(req.body)) {
+        res.status(400).send('The note is not properly formatted.');
+    } else {
+        const note = createNewNote(req.body, notes);
+        res.json(note);
+    }   
 });
 
 function createNewNote(body, notesArray) {
@@ -56,7 +59,15 @@ function createNewNote(body, notesArray) {
     return newNote;
 }
 
-
+function validateNote(note) {
+    if(!note.title || typeof note.name !== 'string') {
+        return false;
+    }
+    if (!note.text || typeof note.text !== 'string') {
+        return false;
+    }
+    return true;
+}
       
 
 
