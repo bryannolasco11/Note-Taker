@@ -18,6 +18,8 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
 app.use(express.json());
+// makes the files a static resource
+app.use(express.static('public'));
 
 // creates a route for front end request
 app.get('/api/notes', (req, res) => {
@@ -69,7 +71,14 @@ function validateNote(note) {
     return true;
 }
       
+// routes for the HTML
+// app.get('/', (req, res) => {
+//     res.sendFile(path.join(__dirname, './public/index.html'));
+// }); // I have no clue what this does
 
+app.get("/notes", function (req, res) {
+    res.sendFile(path.join(__dirname, './public/notes.html'));
+});
 
 app.listen(PORT, () => {
     console.log(`API server now on port ${PORT}!`);
