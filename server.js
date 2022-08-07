@@ -72,13 +72,16 @@ function validateNote(note) {
 }
       
 // routes for the HTML
-// app.get('/', (req, res) => {
-//     res.sendFile(path.join(__dirname, './public/index.html'));
-// }); // I have no clue what this does
-
 app.get("/notes", function (req, res) {
     res.sendFile(path.join(__dirname, './public/notes.html'));
 });
+
+// Wildcard route.  If client makes request that doesn't exist,
+// it goes to this page.
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
+}); 
+
 
 app.listen(PORT, () => {
     console.log(`API server now on port ${PORT}!`);
