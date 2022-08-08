@@ -38,12 +38,20 @@ app.post('/api/notes', (req, res) => {
     // add note to json file and notes array in this function
     
     
-    if (!validateNote(req.body)) {
-        res.status(400).send('The note is not properly formatted.');
-    } else {
+    // if (!validateNote(req.body)) {
+    //     res.status(400).send('The note is not properly formatted.');
+    // } else {
         const note = createNewNote(req.body, notes);
         res.json(note);
-    }   
+    //}   
+});
+
+app.delete('/api/notes/:id', function (req, res) {
+    notes.splice(req.params.id, 1);
+    fs.writeFileSync(
+        path.join(__dirname, './db/dn.json'),
+        JSON.stringify(notesArray, null, 2),
+    );
 });
 
 function createNewNote(body, notesArray) {
@@ -81,6 +89,8 @@ app.get("/notes", function (req, res) {
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, './public/index.html'));
 }); 
+
+
 
 
 app.listen(PORT, () => {
