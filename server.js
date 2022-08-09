@@ -33,7 +33,7 @@ app.get('/api/notes', (req, res) => {
 // then write it to the db.json file
 // give response to the user
 app.post('/api/notes', (req, res) => {
-    console.log(req.body);
+    //console.log(req.body);
     
     // add note to json file and notes array in this function
     
@@ -46,13 +46,7 @@ app.post('/api/notes', (req, res) => {
     //}   
 });
 
-app.delete('/api/notes/:id', function (req, res) {
-    notes.splice(req.params.id, 1);
-    fs.writeFileSync(
-        path.join(__dirname, './db/dn.json'),
-        JSON.stringify(notesArray, null, 2),
-    );
-});
+
 
 function createNewNote(body, notesArray) {
     // adds a unique ID
@@ -62,6 +56,7 @@ function createNewNote(body, notesArray) {
         id: uniqid()
     };
     notesArray.push(newNote);
+    console.log(notesArray);
     fs.writeFileSync(
         path.join(__dirname, './db/db.json'),
         JSON.stringify(notesArray, null, 2)
@@ -90,8 +85,31 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, './public/index.html'));
 }); 
 
+// function to go through the array and match id to delete
+function deleteNote(id, notesArray) {
+    for (let i = 0; i < notesArray.length; i++) {
+        let note = notesArray[i];
+        // for loop to see which file matches the id
+        if (note.id === id) {
+            // seperates the id
+            notesArray.splice(i, 1);
+            // re-write the file
+            fs.writeFileSync(
+                path.join(__dirname, './db/db.json'),
+                JSON.stringify(notesArray, null, 2),
+            );
+            break;
+        }
+    }
+}
+// deletes a note by id
+app.delete('/api/notes/:id', function (req, res) {
+    deleteNote(req.params.id, notes);
+    res.json(true);
+ });
 
 
+  
 
 app.listen(PORT, () => {
     console.log(`API server now on port ${PORT}!`);
