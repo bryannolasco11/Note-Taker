@@ -5,14 +5,9 @@ const PORT = process.env.PORT || 3001;
 // creates an express server
 const app = express();
 
-
 //require routes
 const apiRoutes = require('./routes/apiRoutes/apiRoutes');
-const htmlRoutes = require('./routes/htmlRoutes/htmlRoutes');
-
-const uniqid = require('uniqid');
-
-
+const htmlRoutes = require('./routes//htmlRoutes/htmlRoutes');
 
 // parse incoming string or array data
 app.use(express.urlencoded({ extended: true }));
